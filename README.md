@@ -7,13 +7,11 @@ First, you have to clone this repository on your local machine and run cargo wit
 - path to your image
 - number of colors in color palette
 
-_Example_:
 
 ```bash
 cargo run images/samurai.jpg 5
 ```
 
-_output:_
 
 ![samurai](https://github.com/AkifhanIlgaz/color-palette-generator/blob/master/images/output/samurai.JPG)
 

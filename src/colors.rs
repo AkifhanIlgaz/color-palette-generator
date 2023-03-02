@@ -1,5 +1,4 @@
 use image::Rgba;
-use lab;
 use std::fmt::{self, Display};
 use termion::{color, style};
 
@@ -37,16 +36,14 @@ impl Color {
         let average_b = (colors.iter().map(|color| color.rgb[2] as u32).sum::<u32>()
             / colors.len() as u32) as u8;
 
-        Color::new(average_r, average_g, average_b)
+        Self::new(average_r, average_g, average_b)
     }
 }
 
 impl From<Rgba<u8>> for Color {
     fn from(rgba: Rgba<u8>) -> Self {
         let mut rgb: [u8; 3] = [0; 3];
-        for i in 0..3 {
-            rgb[i] = rgba.0[i];
-        }
+        rgb.copy_from_slice(&rgba.0[..3]);
         Self {
             rgb,
             lab: lab::Lab::from_rgba(&rgba.0),
@@ -61,6 +58,54 @@ impl Display for Color {
             "{}  {}",
             color::Bg(color::Rgb(self.rgb[0], self.rgb[1], self.rgb[2])),
             style::Reset
+        )
+    }
+}
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+
+    #[test]
+    fn test_creating_color_from_rgb_values() {
+        let color = Color::new(27, 41, 53);
+        assert_eq!([27, 41, 53], color.rgb);
+        assert_eq!(15.88, (color.lab.l * 1000.).round() / 1000.);
+        assert_eq!(-2.018, (color.lab.a * 1000.).round() / 1000.);
+        assert_eq!(-9.631, (color.lab.b * 1000.).round() / 1000.);
+    }
+
+    #[test]
+    fn test_creating_color_from_rgba() {
+        let rgba = Rgba::from([27_u8, 41, 53, 1]);
+        let color = Color::from(rgba);
+        assert_eq!([27, 41, 53], color.rgb);
+        assert_eq!(15.88, (color.lab.l * 1000.).round() / 1000.);
+        assert_eq!(-2.018, (color.lab.a * 1000.).round() / 1000.);
+        assert_eq!(-9.631, (color.lab.b * 1000.).round() / 1000.);
+    }
+
+    #[test]
+    fn test_hex_string() {
+        let color = Color::new(27, 41, 53);
+        assert_eq!("#1B2935".to_string(), color.to_hex_string());
+    }
+
+    #[test]
+    fn test_rgb_string() {
+        let color = Color::new(27, 41, 53);
+        assert_eq!("rgb(27,41,53)".to_string(), color.to_rgb_string());
+    }
+
+    #[test]
+    fn test_color_difference() {
+        let color = Color::new(21, 45, 78);
+        let color2 = Color::new(42, 186, 210);
+
+        assert_eq!(
+            60.221,
+            (color.color_difference(&color2) * 1000.).round() / 1000.
         )
     }
 }

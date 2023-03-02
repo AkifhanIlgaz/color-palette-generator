@@ -14,7 +14,7 @@ impl Cluster {
     }
 
     pub fn add_new_color(&mut self, new_color: &Color) {
-        self.colors.push(new_color.clone());
+        self.colors.push(*new_color);
         self.set_new_centroid();
     }
 

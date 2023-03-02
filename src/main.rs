@@ -48,4 +48,8 @@ fn main() {
     for (_, _, rgb_color) in img.pixels() {
         *color_count.entry(rgb_color).or_insert(0) += 1
     }
+
+    let blue = colors::Color::new(0, 0, 0);
+    let red = colors::Color::new(255, 255, 255);
+    println!("{}", blue.average_color(&red));
 }

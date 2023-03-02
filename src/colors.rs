@@ -1,9 +1,13 @@
 use hsl;
 use image::Rgba;
 use lab;
-use std::fmt::{self, Display};
+use std::{
+    fmt::{self, Display},
+    ops::Add,
+};
 use termion::{color, style};
 
+#[derive(Clone)]
 pub struct Color {
     pub rgb: [u8; 3],
     pub lab: lab::Lab,
@@ -36,6 +40,25 @@ impl Color {
 
     pub fn color_difference(&self, other_color: &Color) -> f32 {
         self.lab.squared_distance(&other_color.lab).sqrt()
+    }
+
+    pub fn average_color(&self, other_color: &Color) -> Color {
+        let average_r = (((self.rgb[0] as f32).powi(2) + (other_color.rgb[0] as f32).powi(2)) / 2.)
+            .sqrt() as u8;
+
+        let average_g = (((self.rgb[1] as f32).powi(2) + (other_color.rgb[1] as f32).powi(2)) / 2.)
+            .sqrt() as u8;
+
+        let average_b = (((self.rgb[2] as f32).powi(2) + (other_color.rgb[2] as f32).powi(2)) / 2.)
+            .sqrt() as u8;
+
+        Color::new(average_r, average_g, average_b)
+    }
+
+    pub fn average_of_colors(&self, colors: &Vec<Color>) -> Color {
+        colors.iter().fold(self.clone(), |centroid: Color, color| {
+            centroid.average_color(color)
+        })
     }
 }
 

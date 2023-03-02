@@ -2,7 +2,6 @@ use crate::cluster::Cluster;
 use crate::colors::Color;
 use image::{DynamicImage, GenericImageView};
 use rand::{self, Rng};
-use spinners::{Spinner, Spinners};
 use termion::{color, style};
 pub struct KmeansColor {
     clusters: Vec<Cluster>,
@@ -24,25 +23,11 @@ impl KmeansColor {
         KmeansColor { clusters }
     }
 
-    pub fn run(&mut self, img: &DynamicImage) {
-
-
-        let mut sp = Spinner::new(Spinners::Arc, String::default());
-
+    pub fn cluster_image(&mut self, img: &DynamicImage) {
         for (_, _, rgb_color) in img.pixels().step_by(2) {
             let new_color = Color::from(rgb_color);
             self.add_new_color(&new_color);
         }
-
-        sp.stop();
-        println!();
-        self.print_dominant_colors();
-        println!(
-            "{}{}✓ Success!{}",
-            color::Fg(color::Green),
-            style::Bold,
-            style::Reset,
-        );
     }
 
     pub fn add_new_color(&mut self, new_color: &Color) {
@@ -61,23 +46,16 @@ impl KmeansColor {
             print!("{}  ", color);
             print!(
                 "{}{}{}  ",
-                color::Fg(color::LightWhite),
+                color::Fg(color::White),
                 style::Bold,
                 color.to_hex_string()
             );
-            print!(
+            println!(
                 "{}{}{}  ",
-                color::Fg(color::LightWhite),
+                color::Fg(color::White),
                 style::Bold,
                 color.to_rgb_string()
             );
-            println!(
-                "{}{}%{}  {}",
-                color::Fg(color::LightWhite),
-                style::Bold,
-                (cluster.colors.len() as f32 / 400.),
-                style::Reset
-            )
         }
     }
 }

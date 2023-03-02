@@ -15,7 +15,7 @@ cargo run images/samurai.jpg 5
 
 _output:_
 
-![samurai](https://github.com/AkifhanIlgaz/color-palette-generator/blob/master/images/output/samurai_output.JPG)
+![samurai](https://github.com/AkifhanIlgaz/color-palette-generator/blob/master/images/output/samurai.JPG)
 
 # TODO
 

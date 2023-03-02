@@ -1,10 +1,6 @@
-use hsl;
 use image::Rgba;
 use lab;
-use std::{
-    fmt::{self, Display},
-    ops::Add,
-};
+use std::fmt::{self, Display};
 use termion::{color, style};
 
 #[derive(Clone, Copy)]
@@ -27,15 +23,6 @@ impl Color {
 
     pub fn to_rgb_string(&self) -> String {
         format!("rgb({},{},{})", self.rgb[0], self.rgb[1], self.rgb[2])
-    }
-
-    pub fn to_hsl_string(&self) -> String {
-        let hsl = hsl::HSL::from_rgb(&self.rgb);
-        let h = hsl.h.ceil();
-        let s = hsl.s * 100.;
-        let l = hsl.l * 100.;
-
-        format!("hsl({}°,{:.1}%,{:.1}%)", h, s, l)
     }
 
     pub fn color_difference(&self, other_color: &Color) -> f32 {

@@ -2,7 +2,7 @@ use crate::colors::Color;
 
 pub struct Cluster {
     pub centroid: Color,
-    colors: Vec<Color>,
+    pub colors: Vec<Color>,
 }
 
 impl Cluster {

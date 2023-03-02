@@ -38,12 +38,6 @@ mod tests {
     }
 
     #[test]
-    fn test_hsl_string() {
-        let color = colors::Color::new(27, 41, 53);
-        assert_eq!("hsl(208°,32.5%,15.7%)".to_string(), color.to_hsl_string());
-    }
-
-    #[test]
     fn test_color_difference() {
         let color = colors::Color::new(21, 45, 78);
         let color2 = colors::Color::new(42, 186, 210);

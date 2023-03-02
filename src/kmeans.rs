@@ -25,17 +25,11 @@ impl KmeansColor {
     }
 
     pub fn run(&mut self, img: &DynamicImage) {
-        print!(
-            "{}{}Creating a palette of ",
-            color::Fg(color::White),
-            style::Bold
-        );
-        print!("{}{} ", color::Fg(color::Blue), self.clusters.len());
-        println!("{}colors ", color::Fg(color::White));
+
 
         let mut sp = Spinner::new(Spinners::Arc, String::default());
 
-        for (_, _, rgb_color) in img.pixels().step_by(10) {
+        for (_, _, rgb_color) in img.pixels().step_by(2) {
             let new_color = Color::from(rgb_color);
             self.add_new_color(&new_color);
         }
@@ -78,10 +72,10 @@ impl KmeansColor {
                 color.to_rgb_string()
             );
             println!(
-                "{}{}{}  {}",
+                "{}{}%{}  {}",
                 color::Fg(color::LightWhite),
                 style::Bold,
-                color.to_hsl_string(),
+                (cluster.colors.len() as f32 / 400.),
                 style::Reset
             )
         }

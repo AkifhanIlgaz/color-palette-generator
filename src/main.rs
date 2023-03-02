@@ -1,10 +1,5 @@
-use std::{collections::HashMap, fs};
+use std::env;
 
-// use rand::{self, Rng};
-// use spinners::{Spinner, Spinners};
-use image::{DynamicImage, GenericImageView, Rgb, Rgba};
-use rand::Rng;
-use spinners::{Spinner, Spinners};
 use termion::{color, style};
 
 mod cluster;
@@ -12,11 +7,20 @@ mod colors;
 mod kmeans;
 
 fn main() {
-    let img = image::open("./akira-neo-tokyo-7.png")
-        .unwrap()
-        .thumbnail_exact(200, 200);
+    let path = env::args().nth(1).unwrap();
+    let k = env::args().nth(2).unwrap();
+    print!(
+        "{}{}Creating a palette of ",
+        color::Fg(color::White),
+        style::Bold
+    );
+    print!("{}{} ", color::Fg(color::Blue), k);
+    print!("{}colors from ", color::Fg(color::White));
+    println!("{}{}{}", color::Fg(color::Blue), path, style::Reset);
+    // TODO: color palette of <path>
+    let img = image::open(path).unwrap().thumbnail_exact(200, 200);
 
-    let mut kms = kmeans::KmeansColor::new(3, &img);
+    let mut kms = kmeans::KmeansColor::new(k.parse().unwrap(), &img);
 
     kms.run(&img);
 }

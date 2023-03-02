@@ -9,7 +9,6 @@ pub struct KmeansColor {
 
 impl KmeansColor {
     pub fn new(k: usize, img: &DynamicImage) -> KmeansColor {
-        // let img = img.thumbnail_exact(200, 200);
         let mut clusters = vec![];
         let mut random = rand::thread_rng();
 

@@ -3,10 +3,11 @@ use std::{collections::HashMap, fs};
 // use rand::{self, Rng};
 // use spinners::{Spinner, Spinners};
 use image::{DynamicImage, GenericImageView, Rgb, Rgba};
-use rgb::RGB;
 use termion::{color, style};
 
-mod rgb;
+mod colors;
+mod kmeans;
+
 fn main() {
     // // // Arc,
     // // let mut sp = Spinner::new(Spinners::Arc, "Loading things into memory...".into());
@@ -47,18 +48,4 @@ fn main() {
     for (_, _, rgb_color) in img.pixels() {
         *color_count.entry(rgb_color).or_insert(0) += 1
     }
-
-    for (key, value) in color_count {
-        if value > max {
-            dominant = Some(key)
-        }
-    }
-
-    let rgb = dominant.unwrap().0;
-    println!("{:?}", rgb);
-    println!(
-        "{}  {}",
-        color::Bg(color::Rgb(rgb[0], rgb[1], rgb[2])),
-        style::Reset
-    )
 }

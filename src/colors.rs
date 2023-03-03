@@ -2,7 +2,7 @@ use image::Rgba;
 use std::fmt::{self, Display};
 use termion::{color, style};
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, PartialEq)]
 pub struct Color {
     pub rgb: [u8; 3],
     pub lab: lab::Lab,

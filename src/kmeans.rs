@@ -40,21 +40,25 @@ impl KmeansColor {
     }
 
     pub fn print_dominant_colors(&self) {
+        let mut unique_colors = vec![];
         for cluster in &self.clusters {
             let color = cluster.centroid;
-            print!("{}  ", color);
-            print!(
-                "{}{}{}  ",
-                color::Fg(color::White),
-                style::Bold,
-                color.to_hex_string()
-            );
-            println!(
-                "{}{}{}  ",
-                color::Fg(color::White),
-                style::Bold,
-                color.to_rgb_string()
-            );
+            if !unique_colors.contains(&color) {
+                print!("{}  ", color);
+                print!(
+                    "{}{}{}  ",
+                    color::Fg(color::White),
+                    style::Bold,
+                    color.to_hex_string()
+                );
+                println!(
+                    "{}{}{}  ",
+                    color::Fg(color::White),
+                    style::Bold,
+                    color.to_rgb_string()
+                );
+                unique_colors.push(color);
+            }
         }
     }
 }

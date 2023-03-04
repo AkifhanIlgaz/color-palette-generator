@@ -27,6 +27,8 @@ impl KmeansColor {
             let new_color = Color::from(rgb_color);
             self.add_new_color(&new_color);
         }
+
+        self.clusters.dedup_by_key(|cluster| cluster.centroid);
     }
 
     pub fn add_new_color(&mut self, new_color: &Color) {
@@ -40,25 +42,22 @@ impl KmeansColor {
     }
 
     pub fn print_dominant_colors(&self) {
-        let mut unique_colors = vec![];
         for cluster in &self.clusters {
             let color = cluster.centroid;
-            if !unique_colors.contains(&color) {
-                print!("{}  ", color);
-                print!(
-                    "{}{}{}  ",
-                    color::Fg(color::White),
-                    style::Bold,
-                    color.to_hex_string()
-                );
-                println!(
-                    "{}{}{}  ",
-                    color::Fg(color::White),
-                    style::Bold,
-                    color.to_rgb_string()
-                );
-                unique_colors.push(color);
-            }
+
+            print!("{}  ", color);
+            print!(
+                "{}{}{}  ",
+                color::Fg(color::White),
+                style::Bold,
+                color.to_hex_string()
+            );
+            println!(
+                "{}{}{}  ",
+                color::Fg(color::White),
+                style::Bold,
+                color.to_rgb_string()
+            );
         }
     }
 }

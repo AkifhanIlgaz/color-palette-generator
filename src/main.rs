@@ -1,22 +1,23 @@
 use std::env;
-use termion::{color, style};
+use termion::{
+    color::*,
+    style::{self, *},
+};
 
 mod cluster;
 mod colors;
 mod kmeans;
 
 fn main() {
-    let path = env::args().nth(1).unwrap();
-    let k = env::args().nth(2).unwrap();
+    let args: Vec<String> = env::args().skip(1).collect();
+    let [path, k, ..] = args.as_slice() else {
+        panic!("Not enough arguments")
+    };
 
-    print!(
-        "{}{}Creating a palette of ",
-        color::Fg(color::White),
-        style::Bold
-    );
-    print!("{}{} ", color::Fg(color::LightGreen), k);
-    print!("{}colors from ", color::Fg(color::White));
-    println!("{}{}{}", color::Fg(color::Green), path, style::Reset);
+    print!("{}{}Creating a palette of ", Fg(White), Bold);
+    print!("{}{} ", Fg(LightGreen), k);
+    print!("{}colors from ", Fg(White));
+    println!("{}{}{}", Fg(Green), path, style::Reset);
 
     let img = image::open(path).unwrap().thumbnail_exact(200, 200);
 
@@ -27,7 +28,7 @@ fn main() {
 
     println!(
         "{}{}✓ Color palette successfully created!{}",
-        color::Fg(color::Blue),
+        Fg(Blue),
         style::Bold,
         style::Reset,
     );

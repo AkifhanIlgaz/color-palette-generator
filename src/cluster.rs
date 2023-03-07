@@ -19,33 +19,38 @@ impl Cluster {
     }
 
     pub fn set_new_centroid(&mut self) {
-        self.centroid = self.average_of_colors();
+        self.centroid = self.calculate_new_centroid();
     }
 
     pub fn calculate_color_difference_with_centroid(&self, other_color: &Color) -> u32 {
         self.centroid.color_difference(other_color) as u32
     }
 
-    pub fn average_of_colors(&self) -> Color {
-        let average_r = (self
+    pub fn calculate_new_centroid(&self) -> Color {
+        let average_l = self
             .colors
             .iter()
-            .map(|color| color.rgb[0] as u32)
-            .sum::<u32>()
-            / self.colors.len() as u32) as u8;
-        let average_g = (self
+            .map(|color| lab::Lab::from_rgb(&color.rgb).l)
+            .sum::<f32>()
+            / self.colors.len() as f32;
+        let average_a = self
             .colors
             .iter()
-            .map(|color| color.rgb[1] as u32)
-            .sum::<u32>()
-            / self.colors.len() as u32) as u8;
-        let average_b = (self
+            .map(|color| lab::Lab::from_rgb(&color.rgb).a)
+            .sum::<f32>()
+            / self.colors.len() as f32;
+        let average_b = self
             .colors
             .iter()
-            .map(|color| color.rgb[2] as u32)
-            .sum::<u32>()
-            / self.colors.len() as u32) as u8;
+            .map(|color| lab::Lab::from_rgb(&color.rgb).b)
+            .sum::<f32>()
+            / self.colors.len() as f32;
 
-        Color::new(average_r, average_g, average_b)
+        let lab = lab::Lab {
+            l: average_l,
+            a: average_a,
+            b: average_b,
+        };
+        Color::from(lab)
     }
 }

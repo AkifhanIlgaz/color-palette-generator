@@ -35,6 +35,13 @@ impl From<Rgba<u8>> for Color {
     }
 }
 
+impl From<lab::Lab> for Color {
+    fn from(value: lab::Lab) -> Self {
+        let rgb = value.to_rgb();
+        Self::new(rgb[0], rgb[1], rgb[2])
+    }
+}
+
 impl Display for Color {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
@@ -45,4 +52,3 @@ impl Display for Color {
         )
     }
 }
-

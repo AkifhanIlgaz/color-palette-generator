@@ -7,26 +7,8 @@ First, you have to clone this repository on your local machine and run cargo wit
 - path to your image
 - number of colors in color palette
 
-
 ```bash
 cargo run images/samurai.jpg 5
 ```
 
-
 ![samurai](https://github.com/AkifhanIlgaz/color-palette-generator/blob/master/images/output/samurai.JPG)
-
-# TODO
-
-- [ ] Write automated tests
-
-- [ ] Improve terminal output
-
-- [ ] Convert it to fully functional CLI program
-
-- [ ] Made optimizations on k-means algorithm
-
-- [ ] Give additional flags to print other color representations
-
-- [ ] Accept URLs
-
-- [ ] Convert output to JSON for API uses

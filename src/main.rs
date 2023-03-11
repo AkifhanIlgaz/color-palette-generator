@@ -9,6 +9,16 @@ mod colors;
 mod kmeans;
 
 fn main() {
+    /*
+        TODO
+
+        - Use clap for argument parsing
+        - Unit testing
+        - Optimize k-means
+        - Accept URL
+     
+    */
+
     let args: Vec<String> = env::args().skip(1).collect();
     let [path, k, ..] = args.as_slice() else {
         panic!("Not enough arguments")
